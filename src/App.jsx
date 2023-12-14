@@ -4,6 +4,8 @@ import './App.css'
 
 const MyComponent = () => {
   const [data, setData] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -11,6 +13,8 @@ const MyComponent = () => {
         setData(response.data);
       } catch (error) {
         console.error(error);
+      } finally {
+        setIsLoading(false);
       }
     };
 
@@ -29,6 +33,10 @@ const MyComponent = () => {
       const highestHeight = data.users.reduce((accumulator, user) => Math.max(accumulator, user.height), 0);
       return highestHeight; }
     return 0;
+  }
+
+  if (isLoading) {
+    return <div>Loading...</div>
   }
 
   return (
