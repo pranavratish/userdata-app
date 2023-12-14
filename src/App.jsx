@@ -4,7 +4,6 @@ import './App.css'
 
 const MyComponent = () => {
   const [data, setData] = useState(null);
-  console.log(data)
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -18,7 +17,26 @@ const MyComponent = () => {
     fetchData();
   }, []);
 
+  const calculateAverageAge = () => {
+    if (data && data.users.length > 0) {
+      const totalAge = data.users.reduce((accumulator, user) => accumulator + user.age, 0);
+      return Math.round(totalAge / data.users.length); }
+      return 0;
+    };
+
+  const calculateHighestHeight = () => {
+    if (data && data.users.length > 0) {
+      const highestHeight = data.users.reduce((accumulator, user) => Math.max(accumulator, user.height), 0);
+      return highestHeight; }
+    return 0;
+  }
+
   return (
+    <>
+    <h1>User Data</h1>
+    <div>
+        <h2>Average Age : {calculateAverageAge()} | Highest Height : {calculateHighestHeight()} | Total No. of Brown Haired People : {data && data.users.filter((user) => user.hair.color == 'Brown').length} </h2>
+    </div>
     <div>
       {data && data.users.map((user) => (
       <div key={user.id}>
@@ -27,6 +45,7 @@ const MyComponent = () => {
       </div>
     ))}
     </div>
+    </>
   );
 };
 
